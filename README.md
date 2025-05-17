@@ -90,7 +90,6 @@ OdinFun API tools are now organized by functional modules for easier use and bet
 #### System Tools
 - `odinapi_getPriceUnitInfo`: Get information about price units in Odin.fun API, helping understand how to interpret price values
 - `odinapi_getFaqInfo`: Get official FAQ information about Odin.fun, including details about token pricing, AMM, bonding curve, and platform functionality
-- `odinapi_enhancedResponse`: Call any Odin.fun API method and automatically enhance the response with price_sats and price_usd fields
 
 #### Authentication Tools
 - `odinapi_authIdentity`: Authenticate using ICP identity (Ed25519KeyIdentity)

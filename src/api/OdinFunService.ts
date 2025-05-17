@@ -1,6 +1,7 @@
 // src/api/OdinFunService.ts - Odin.fun API Service Aggregator
 import { ApiClient, type ApiClientConfig } from './core/ApiClient.js';
 import { ODIN_API_BASE_URL } from './core/constants.js';
+import { ResponseEnhancer } from './core/ResponseEnhancer.js';
 
 import { AuthApiModule } from './modules/auth.js';
 import { UserApiModule } from './modules/user.js';
@@ -23,6 +24,7 @@ import { StripeApiModule } from './modules/stripe.js';
 
 export class OdinFunService {
   private client: ApiClient;
+  private responseEnhancer: ResponseEnhancer;
   
   // API Modules
   public readonly auth: AuthApiModule;
@@ -64,6 +66,17 @@ export class OdinFunService {
     this.search = new SearchApiModule(this.client);
     this.blife = new BlifeApiModule(this.client);
     this.stripe = new StripeApiModule(this.client);
+    this.responseEnhancer = new ResponseEnhancer(this);
+  }
+
+  /**
+   * Wraps API calls with response enhancement
+   * @param apiCall - The API call function to wrap
+   * @returns Enhanced API response
+   */
+  private async enhanceApiCall<T>(apiCall: () => Promise<T>): Promise<T> {
+    const response = await apiCall();
+    return this.responseEnhancer.enhanceResponse(response);
   }
 
   /**
@@ -84,6 +97,28 @@ export class OdinFunService {
       console.error('[OdinFunService] Error fetching BTC price:', error);
       return null;
     }
+  }
+
+  // Modify token-related methods to use enhancement
+  public async getTokenById(tokenId: string, includeHolders: boolean = false): Promise<any> {
+    return this.enhanceApiCall(() => this.token.getTokenById(tokenId, includeHolders));
+  }
+
+  public async getTokens(params: any): Promise<any> {
+    return this.enhanceApiCall(() => this.token.getTokens(params));
+  }
+
+  public async getTokenTrades(params: any): Promise<any> {
+    return this.enhanceApiCall(() => this.trade.getTrades(params));
+  }
+
+  /**
+   * Enhances any API response with price information
+   * @param response - The API response to enhance
+   * @returns Enhanced response with price_sats and price_usd fields
+   */
+  public async enhanceResponse(response: any): Promise<any> {
+    return this.responseEnhancer.enhanceResponse(response);
   }
 
   // Potentially add other direct utility methods here if they don't fit a specific module

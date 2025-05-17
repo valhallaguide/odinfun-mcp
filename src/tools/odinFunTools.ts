@@ -14,48 +14,7 @@ interface Token {
 // Initialize OdinFunService instance
 const odinFunService = new OdinFunService({ baseURL: ODIN_API_BASE_URL });
 
-// Add utility function for price conversion
-async function convertPrices(data: any): Promise<any> {
-  // Get BTC/USD price
-  const btcPriceResp = await odinFunService.getBTCPrice();
-  // Safely access btcPriceResp data, BTC price is in amount field
-  let btcPriceUsd = 0;
-  try {
-    if (btcPriceResp && 
-        typeof btcPriceResp === 'object' && 
-        'amount' in btcPriceResp) {
-      btcPriceUsd = Number(btcPriceResp.amount) || 0;
-    }
-  } catch (e) {
-    console.error('Error parsing BTC price:', e);
-  }
-  
-  // Process object recursively
-  function processObject(obj: any): any {
-    if (!obj || typeof obj !== 'object') return obj;
-    
-    // Process array
-    if (Array.isArray(obj)) {
-      return obj.map(item => processObject(item));
-    }
-    
-    // Process object
-    const result = {...obj};
-    for (const key in obj) {
-      if (key === 'price' && typeof obj[key] === 'number') {
-        const priceSats = obj[key] * 0.001;
-        const priceUsd = priceSats * btcPriceUsd / 100000000;
-        result.price_sats = `${priceSats} sats`;
-        result.price_usd = `$${priceUsd.toFixed(8)} usd`;
-      } else if (typeof obj[key] === 'object' && obj[key] !== null) {
-        result[key] = processObject(obj[key]);
-      }
-    }
-    return result;
-  }
-  
-  return processObject(data);
-}
+
 
 export function registerOdinFunTools(server: any) {
   /**
@@ -179,7 +138,8 @@ export function registerOdinFunTools(server: any) {
     },
     async (params: any) => {
       const result = await odinFunService.token.getTokens({ page: params.page ?? 1, limit: params.limit ?? 100 });
-      return { content: [{ type: "text", text: JSON.stringify(result) }] };
+      const enhancedResult = await odinFunService.enhanceResponse(result);
+      return { content: [{ type: "text", text: JSON.stringify(enhancedResult) }] };
     }
   );
 
@@ -197,7 +157,8 @@ export function registerOdinFunTools(server: any) {
     },
     async (params: any) => {
       const result = await odinFunService.token.getTokens({ sort: 'marketcap:desc', page: params.page ?? 1, limit: params.limit ?? 100 });
-      return { content: [{ type: "text", text: JSON.stringify(result) }] };
+      const enhancedResult = await odinFunService.enhanceResponse(result);
+      return { content: [{ type: "text", text: JSON.stringify(enhancedResult) }] };
     }
   );
 
@@ -224,28 +185,31 @@ export function registerOdinFunTools(server: any) {
           holders_min: 10,
           search: name
         });
+
+        // Enhance the response with price information
+        const enhancedResp = await odinFunService.enhanceResponse(tokensResp);
         
         // Log the raw response for debugging
         //console.error('Raw API Response:', JSON.stringify(tokensResp, null, 2));
         
         // Check if the response is valid
-        if (!tokensResp) {
+        if (!enhancedResp) {
           //console.error('API returned null or undefined response');
           return { content: [{ type: "text", text: JSON.stringify({ error: 'API returned no data' }) }] };
         }
         
         // Try to extract tokens from different possible response structures
         let tokens: Token[] = [];
-        if (Array.isArray(tokensResp)) {
-          tokens = tokensResp as Token[];
-        } else if (typeof tokensResp === 'object') {
-          if ('data' in tokensResp && Array.isArray(tokensResp.data)) {
-            tokens = tokensResp.data as Token[];
-          } else if ('content' in tokensResp && 
-                     typeof tokensResp.content === 'object' && 
-                     'application/json' in tokensResp.content &&
-                     Array.isArray(tokensResp.content['application/json'].data)) {
-            tokens = tokensResp.content['application/json'].data as Token[];
+        if (Array.isArray(enhancedResp)) {
+          tokens = enhancedResp as Token[];
+        } else if (typeof enhancedResp === 'object') {
+          if ('data' in enhancedResp && Array.isArray(enhancedResp.data)) {
+            tokens = enhancedResp.data as Token[];
+          } else if ('content' in enhancedResp && 
+                     typeof enhancedResp.content === 'object' && 
+                     'application/json' in enhancedResp.content &&
+                     Array.isArray(enhancedResp.content['application/json'].data)) {
+            tokens = enhancedResp.content['application/json'].data as Token[];
           }
         }
         
@@ -282,7 +246,8 @@ export function registerOdinFunTools(server: any) {
     },
     async (params: any) => {
       const result = await odinFunService.token.getTokenById(params.tokenId, false);
-      return { content: [{ type: "text", text: JSON.stringify(result) }] };
+      const enhancedResult = await odinFunService.enhanceResponse(result);
+      return { content: [{ type: "text", text: JSON.stringify(enhancedResult) }] };
     }
   );
 
@@ -302,7 +267,8 @@ export function registerOdinFunTools(server: any) {
     },
     async (params: any) => {
       const result = await odinFunService.token.getTokenOwners(params.id, { page: params.page ?? 1, limit: params.limit ?? 9999 });
-      return { content: [{ type: "text", text: JSON.stringify(result) }] };
+      const enhancedResult = await odinFunService.enhanceResponse(result);
+      return { content: [{ type: "text", text: JSON.stringify(enhancedResult) }] };
     }
   );
 
@@ -319,7 +285,8 @@ export function registerOdinFunTools(server: any) {
     },
     async (params: any) => {
       const result = await odinFunService.token.getTokenLiquidity(params.token_id);
-      return { content: [{ type: "text", text: JSON.stringify(result) }] };
+      const enhancedResult = await odinFunService.enhanceResponse(result);
+      return { content: [{ type: "text", text: JSON.stringify(enhancedResult) }] };
     }
   );
 
@@ -391,7 +358,8 @@ export function registerOdinFunTools(server: any) {
         page: params.page ?? 1,
         limit: params.limit ?? 1000
       });
-      return { content: [{ type: "text", text: JSON.stringify(result) }] };
+      const enhancedResult = await odinFunService.enhanceResponse(result);
+      return { content: [{ type: "text", text: JSON.stringify(enhancedResult) }] };
     }
   );
 
@@ -409,7 +377,8 @@ export function registerOdinFunTools(server: any) {
     },
     async (params: any) => {
       const result = await odinFunService.trade.getTrades({ token: params.Id, time_min: params.LastActionTimestamp });
-      return { content: [{ type: "text", text: JSON.stringify(result) }] };
+      const enhancedResult = await odinFunService.enhanceResponse(result);
+      return { content: [{ type: "text", text: JSON.stringify(enhancedResult) }] };
     }
   );
 
@@ -427,7 +396,8 @@ export function registerOdinFunTools(server: any) {
     },
     async (params: any) => {
       const result = await odinFunService.trade.getTrades({ token: params.tokenId, user: params.user });
-      return { content: [{ type: "text", text: JSON.stringify(result) }] };
+      const enhancedResult = await odinFunService.enhanceResponse(result);
+      return { content: [{ type: "text", text: JSON.stringify(enhancedResult) }] };
     }
   ); 
 
@@ -565,55 +535,5 @@ export function registerOdinFunTools(server: any) {
     }
   );  
 
-  /**
-   * Get price-enhanced API response
-   * Enhances any Odin.fun API response by adding price_sats and price_usd fields
-   * @param apiMethod - API method name
-   * @param params - Parameters for the API method
-   */
-  server.tool(
-    "odinapi_enhancedResponse",
-    "Call any Odin.fun API method and automatically enhance the response with price_sats and price_usd fields",
-    {
-      apiMethod: z.string().describe("API method name, e.g. getToken, getTokenTrades"),
-      params: z.any().describe("Parameters for the API method")
-    },
-    async (params: any) => {
-      // Use type assertion to safely access API methods
-      const api = odinFunService as Record<string, any>;
-      
-      if (typeof api[params.apiMethod] !== 'function') {
-        return { 
-          content: [{ 
-            type: "text", 
-            text: JSON.stringify({ error: "Invalid API method" })
-          }]
-        };
-      }
-      
-      try {
-        // Call the specified API method
-        const result = await api[params.apiMethod](...(Array.isArray(params.params) ? params.params : [params.params]));
-        
-        // Enhance response data
-        const enhancedResult = await convertPrices(result);
-        
-        return { 
-          content: [{ 
-            type: "text", 
-            text: JSON.stringify(enhancedResult, null, 2)
-          }]
-        };
-      } catch (error: unknown) {
-        // Handle errors, ensure type safety for error object
-        const errorMessage = error instanceof Error ? error.message : String(error);
-        return { 
-          content: [{ 
-            type: "text", 
-            text: JSON.stringify({ error: `Error calling ${params.apiMethod}: ${errorMessage}` })
-          }]
-        };
-      }
-    }
-  );
+
 }

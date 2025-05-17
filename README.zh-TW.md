@@ -90,7 +90,6 @@ OdinFun API工具現在按功能模組組織，以便於使用和更好的AI集�
 #### 系統工具
 - `odinapi_getPriceUnitInfo`：獲取Odin.fun API中的價格單位信息，幫助理解價格值的解釋方式
 - `odinapi_getFaqInfo`：獲取Odin.fun官方FAQ信息，包括代幣定價、AMM、綁定曲線和平台功能等詳細信息
-- `odinapi_enhancedResponse`：調用任何Odin.fun API方法並自動增強響應，添加price_sats和price_usd字段
 
 #### 認證工具
 - `odinapi_authIdentity`：使用ICP身份(Ed25519KeyIdentity)進行身份認證

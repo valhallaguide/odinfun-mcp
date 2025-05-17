@@ -4,14 +4,25 @@ import * as types from '../core/types.js';
 export class TokenApiModule {
   constructor(private client: ApiClient) {}
 
-  /** 获取所有Token（分页、筛选、排序） */
-  async getTokens(params?: types.paths['/v1/tokens']['get']['parameters']['query']): Promise<types.paths['/v1/tokens']['get']['responses']['200']> {
-    return this.client.get('/tokens', { params });
+  /**
+   * Get token by ID
+   * @param tokenId - Token ID
+   * @param includeHolders - Whether to include holder information
+   */
+  async getTokenById(tokenId: string, includeHolders: boolean = false): Promise<any> {
+    const response = await this.client.get(`/token/${tokenId}`, {
+      params: { include_holders: includeHolders }
+    });
+    return response;
   }
 
-  /** 获取单个Token详情 */
-  async getTokenById(id: string, show_hidden: boolean): Promise<types.components['schemas']['TokenEntity']> {
-    return this.client.get(`/token/${id}`, { params: { show_hidden } });
+  /**
+   * Get token list with optional filters
+   * @param params - Query parameters
+   */
+  async getTokens(params: any = {}): Promise<any> {
+    const response = await this.client.get('/tokens', { params });
+    return response;
   }
 
   /** 获取Token评论 */

@@ -1,6 +1,6 @@
 {
   "name": "odinfun-mcp",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "odin.fun mcp server",
   "main": "dist/server.js",
   "bin": {
