@@ -1,6 +1,7 @@
 // src/api/modules/auth.ts - Authentication related API module
 import { ApiClient } from '../core/ApiClient.js';
 import * as types from '../core/types.js';
+import { logger } from '../../utils/logger.js';
 // import type { AuthParams, UserLoginResponseData, UserLogoutResponseData } from '../core/types.js';
 
 /**
@@ -13,32 +14,32 @@ export class AuthApiModule {
   constructor(private client: ApiClient) {}
 
   /**
-   * 获取认证令牌
-   * 对应 POST /auth/token
-   * @param authRequest 包含用户名和密码的认证请求
-   * @returns 包含访问令牌的响应，或在错误时返回null
+   * Get authentication token
+   * Corresponds to POST /auth/token
+   * @param authRequest Authentication request containing username and password
+   * @returns Response containing access token, or null on error
    */
   async getAuthToken(authRequest: types.components['schemas']['AuthenticateDto']): Promise<types.components['schemas']['AuthJwtResponse'] | null> {
     try {
       const data = await this.client.post<types.components['schemas']['AuthJwtResponse']>('/auth', authRequest);
       return data;
     } catch (error) {
-      console.error('[AuthApiModule] 获取认证令牌时出错:', error);
+      logger.error('[AuthApiModule] Error getting authentication token:', error);
       return null;
     }
   }
 
-  /** 用户认证（登录） */
+  /** User authentication (login) */
   async authenticate(body: types.components['schemas']['AuthenticateDto']): Promise<types.components['schemas']['AuthJwtResponse']> {
     return this.client.post('/auth', body);
   }
 
-  /** 检查认证状态（获取当前用户principal） */
+  /** Check authentication status (get current user principal) */
   async checkAuth(): Promise<string> {
     return this.client.get('/auth');
   }
 
-  /** 刷新认证Token */
+  /** Refresh authentication token */
   async refreshAuth(): Promise<types.components['schemas']['AuthJwtResponse']> {
     return this.client.post('/auth/refresh');
   }
@@ -48,7 +49,7 @@ export class AuthApiModule {
   async login(credentials: { username: string, password_hash: string }): Promise<UserLoginResponseData | null> {
     // Assuming an endpoint like /auth/login
     // return this.client.post<UserLoginResponseData>('/auth/login', credentials);
-    console.log('AuthApiModule.login called with:', credentials, 'But no actual endpoint is defined.');
+    logger.error('AuthApiModule.login called with:', credentials, 'But no actual endpoint is defined.');
     return Promise.resolve(null); 
   }
   */
@@ -58,7 +59,7 @@ export class AuthApiModule {
   async logout(authParams: AuthParams): Promise<UserLogoutResponseData | null> {
     // Assuming an endpoint like /auth/logout
     // return this.client.post<UserLogoutResponseData>('/auth/logout', {}, authParams);
-    console.log('AuthApiModule.logout called with:', authParams, 'But no actual endpoint is defined.');
+    logger.error('AuthApiModule.logout called with:', authParams, 'But no actual endpoint is defined.');
     return Promise.resolve(null);
   }
   */

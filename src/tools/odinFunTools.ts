@@ -67,10 +67,11 @@ export function registerOdinFunTools(server: any) {
     "Get information about price units in Odin.fun API. All prices returned by API need to be multiplied by 0.001 to convert to actual satoshi values",
     {},
     async () => {
+      const doc = getApiDocumentation('price');
       return {
         content: [{
           type: "text",
-          text: getApiDocumentation('price')
+          text: doc.content
         }]
       };
     }
@@ -85,10 +86,11 @@ export function registerOdinFunTools(server: any) {
     "Get official FAQ information about Odin.fun. Includes details about token pricing, AMM, bonding curve, and platform functionality.",
     {},
     async () => {
+      const doc = getApiDocumentation('faq');
       return {
         content: [{
           type: "text",
-          text: getApiDocumentation('faq')
+          text: doc.content
         }]
       };
     }
@@ -581,7 +583,12 @@ export function registerOdinFunTools(server: any) {
       const api = odinFunService as Record<string, any>;
       
       if (typeof api[params.apiMethod] !== 'function') {
-        return { content: [{ type: "text", text: JSON.stringify({ error: "Invalid API method" }) }] };
+        return { 
+          content: [{ 
+            type: "text", 
+            text: JSON.stringify({ error: "Invalid API method" })
+          }]
+        };
       }
       
       try {
@@ -591,7 +598,12 @@ export function registerOdinFunTools(server: any) {
         // Enhance response data
         const enhancedResult = await convertPrices(result);
         
-        return { content: [{ type: "text", text: JSON.stringify(enhancedResult, null, 2) }] };
+        return { 
+          content: [{ 
+            type: "text", 
+            text: JSON.stringify(enhancedResult, null, 2)
+          }]
+        };
       } catch (error: unknown) {
         // Handle errors, ensure type safety for error object
         const errorMessage = error instanceof Error ? error.message : String(error);

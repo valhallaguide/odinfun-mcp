@@ -8,10 +8,11 @@ import { registerOdinFunTools } from "./tools/odinFunTools.js";
 import { registerDocumentationResources } from "./docs/registerDocs.js";
 import express from "express";
 import cors from "cors";
+import { logger } from "./utils/logger.js";
 
 // Define server name and version in one place
 const SERVER_NAME = "odin-fun-server";
-const SERVER_VERSION = "1.0.0";
+const SERVER_VERSION = "1.0.1";
 
 // Create McpServer instance
 const server = new McpServer({
@@ -26,36 +27,34 @@ const streamableTransports: Record<string, StreamableServerTransport> = {};
 // Tool registration and server startup
 async function main() {
   try {
-    console.error("Starting odin-fun-server...");
-    console.error("Current working directory:", process.cwd());
+    logger.log("Starting odin-fun-server...");
+    logger.log("Current working directory:", process.cwd());
 
-    // Register documentation resources first
+    // Register API documentation resources
     try {
-      console.error("Registering API documentation resources...");
-      registerDocumentationResources(server);
-      console.error("API documentation resources registered");
+      logger.log("Registering API documentation resources...");
+      await registerDocumentationResources(server);
+      logger.log("API documentation resources registered");
     } catch (err) {
-      console.error("Error registering documentation resources:", err);
-      throw err;
+      logger.error("Error registering documentation resources:", err);
     }
 
-    // Register tools
+    // Register canister tools
     try {
-      console.error("Registering canister tools...");
-      registerCanisterTools(server);
-      console.error("Canister tools registered");
+      logger.log("Registering canister tools...");
+      await registerCanisterTools(server);
+      logger.log("Canister tools registered");
     } catch (err) {
-      console.error("Error registering canister tools:", err);
-      throw err;
+      logger.error("Error registering canister tools:", err);
     }
 
+    // Register odin-fun tools
     try {
-      console.error("Registering odin-fun tools...");
-      registerOdinFunTools(server);
-      console.error("Odin-fun tools registered");
+      logger.log("Registering odin-fun tools...");
+      await registerOdinFunTools(server);
+      logger.log("Odin-fun tools registered");
     } catch (err) {
-      console.error("Error registering odin-fun tools:", err);
-      throw err;
+      logger.error("Error registering odin-fun tools:", err);
     }
 
     // Check if HTTP transport should be used
@@ -82,18 +81,18 @@ async function main() {
           // Clean up when connection closes
           res.on('close', () => {
             delete sseTransports[sessionId];
-            console.error(`SSE connection closed: ${sessionId}`);
+            logger.error(`SSE connection closed: ${sessionId}`);
           });
           
-          console.error(`New SSE connection established: ${sessionId}`);
+          logger.log(`New SSE connection established: ${sessionId}`);
           
           // Connect to MCP server
           server.connect(transport)
             .then(() => {
-              console.error(`Server successfully connected to SSE transport: ${sessionId}`);
+              logger.log(`Server successfully connected to SSE transport: ${sessionId}`);
             })
             .catch((err) => {
-              console.error(`Error connecting to SSE transport: ${err}`);
+              logger.error(`Error connecting to SSE transport: ${err}`);
               res.end();
             });
         });
@@ -111,18 +110,18 @@ async function main() {
           // Clean up when connection closes
           res.on('close', () => {
             delete streamableTransports[sessionId];
-            console.error(`Streamable connection closed: ${sessionId}`);
+            logger.error(`Streamable connection closed: ${sessionId}`);
           });
           
-          console.error(`New Streamable connection established: ${sessionId}`);
+          logger.log(`New Streamable connection established: ${sessionId}`);
           
           // Connect to MCP server
           server.connect(transport)
             .then(() => {
-              console.error(`Server successfully connected to Streamable transport: ${sessionId}`);
+              logger.log(`Server successfully connected to Streamable transport: ${sessionId}`);
             })
             .catch((err) => {
-              console.error(`Error connecting to Streamable transport: ${err}`);
+              logger.error(`Error connecting to Streamable transport: ${err}`);
               res.end();
             });
         });
@@ -142,14 +141,14 @@ async function main() {
           const transport = sseTransports[sessionId];
           transport.handlePostMessage(req, res, req.body)
             .catch((err) => {
-              console.error(`Error handling SSE message: ${err}`);
+              logger.error(`Error handling SSE message: ${err}`);
               res.status(500).json({ error: 'Internal server error' });
             });
         } else if (mode === 'streamable' && streamableTransports[sessionId]) {
           const transport = streamableTransports[sessionId];
           transport.handlePostMessage(req, res, req.body)
             .catch((err) => {
-              console.error(`Error handling Streamable message: ${err}`);
+              logger.error(`Error handling Streamable message: ${err}`);
               res.status(500).json({ error: 'Internal server error' });
             });
         } else {
@@ -173,34 +172,54 @@ async function main() {
       // Start HTTP server
       const PORT = process.env.PORT || 3000;
       app.listen(PORT, () => {
-        console.error(`Odin-fun-server HTTP server running on port ${PORT}`);
-        console.error(`Available modes: ${process.argv.includes("--sse") ? "SSE" : ""} ${process.argv.includes("--streamable") ? "Streamable" : ""}`);
+        logger.log(`Odin-fun-server HTTP server running on port ${PORT}`);
+        logger.log(`Available modes: ${process.argv.includes("--sse") ? "SSE" : ""} ${process.argv.includes("--streamable") ? "Streamable" : ""}`);
       });
       return;
     }
 
     // Default to stdio transport
-    console.error("Using Stdio transport...");
-    const stdioTransport = new StdioServerTransport();
-    await server.connect(stdioTransport);
-    console.error("Odin-fun-server connected via stdio");
+    logger.log("Using Stdio transport...");
+    const transport = new StdioServerTransport();
+    await server.connect(transport);
+    logger.log("Odin-fun-server connected via stdio");
     return;
     
-  } catch (err) {
-    console.error("Fatal error during server startup:", err);
+  } catch (err: unknown) {
+    logger.error("Fatal error during server startup:", err);
     if (err instanceof Error) {
-      console.error("Error stack:", err.stack);
+      logger.error("Error stack:", err.stack);
     }
-    // Rethrow the error to trigger the top-level catch
-    throw err;
+    process.exit(1);
   }
 }
 
-// Start server with proper error handling
-main().catch((err) => {
-  console.error("Unhandled error in main:", err);
+// Handle unhandled errors
+process.on('unhandledRejection', (err: unknown) => {
+  logger.error("Unhandled error in main:", err);
   if (err instanceof Error) {
-    console.error("Error stack:", err.stack);
+    logger.error("Error stack:", err.stack);
   }
+});
+
+// Handle process termination
+process.on('SIGINT', async () => {
+  logger.log("Shutting down server...");
+  await logger.close();
+  process.exit(0);
+});
+
+process.on('SIGTERM', async () => {
+  logger.log("Shutting down server...");
+  await logger.close();
+  process.exit(0);
+});
+
+main().catch(async (err: unknown) => {
+  logger.error("Unhandled error in main:", err);
+  if (err instanceof Error) {
+    logger.error("Error stack:", err.stack);
+  }
+  await logger.close();
   process.exit(1);
 });

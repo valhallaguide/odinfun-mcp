@@ -2,6 +2,7 @@ import { ServerTransport } from "@modelcontextprotocol/sdk/server/transport.js";
 import { v4 as uuidv4 } from 'uuid';
 import { Request, Response } from 'express';
 import { Transport } from "@modelcontextprotocol/sdk/transport.js";
+import { logger } from '../utils/logger.js';
 
 export class StreamableServerTransport implements ServerTransport, Transport {
   public readonly sessionId: string;
@@ -14,7 +15,7 @@ export class StreamableServerTransport implements ServerTransport, Transport {
     this.sessionId = uuidv4();
     this.response = res;
     
-    // 设置流式响应头
+    // Set streaming response headers
     res.setHeader('Content-Type', 'application/x-ndjson');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
@@ -24,7 +25,7 @@ export class StreamableServerTransport implements ServerTransport, Transport {
   }
 
   async start(): Promise<void> {
-    // 流式传输不需要特殊的启动逻辑
+    // No special startup logic needed for streaming
     return Promise.resolve();
   }
 
@@ -34,11 +35,11 @@ export class StreamableServerTransport implements ServerTransport, Transport {
     }
 
     try {
-      // 将消息转换为 NDJSON 格式并发送
+      // Convert message to NDJSON format and send
       const jsonMessage = JSON.stringify(message);
       this.response.write(jsonMessage + '\n');
       
-      // 使用 write 的回调来确保消息被发送
+      // Use write callback to ensure message is sent
       await new Promise<void>((resolve, reject) => {
         this.response.write('', (err) => {
           if (err) {
@@ -49,7 +50,7 @@ export class StreamableServerTransport implements ServerTransport, Transport {
         });
       });
     } catch (error) {
-      console.error('Error sending message:', error);
+      logger.error('Error sending message:', error);
       throw error;
     }
   }
@@ -69,7 +70,7 @@ export class StreamableServerTransport implements ServerTransport, Transport {
         await this.messageCallback(message);
         res.status(200).json({ status: 'ok' });
       } catch (error) {
-        console.error('Error handling message:', error);
+        logger.error('Error handling message:', error);
         res.status(500).json({ error: 'Internal server error' });
       }
     } else {
