@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ES2020",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "declaration": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ],
+    "isolatedModules": false,
+    "types": ["node"],
+    "baseUrl": "./src",
+    "paths": {
+      "./core/types.js": ["api/core/types"],
+      "../core/types.js": ["api/core/types"],
+      "./core/ApiClient.js": ["api/core/ApiClient"],
+      "../core/ApiClient.js": ["api/core/ApiClient"],
+      "./core/constants.js": ["api/core/constants"],
+      "./modules/auth.js": ["api/modules/auth"],
+      "./modules/user.js": ["api/modules/user"],
+      "./modules/token.js": ["api/modules/token"],
+      "./modules/trade.js": ["api/modules/trade"],
+      "./modules/comments.js": ["api/modules/comments"],
+      "./modules/market.js": ["api/modules/market"],
+      "./modules/game.js": ["api/modules/game"],
+      "./OdinFunService.js": ["api/OdinFunService"]
+    }
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

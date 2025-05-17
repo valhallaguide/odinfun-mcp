@@ -1,0 +1,50 @@
+{
+  "name": "odinfun-mcp",
+  "version": "1.0.0",
+  "description": "odin.fun mcp server",
+  "main": "dist/server.js",
+  "bin": {
+    "odinfun-mcp": "dist/server.js"
+  },
+  "types": "dist/server.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc && shx cp src/api/*.did.js dist/api/ && shx chmod +x dist/*.js",
+    "dev": "npm run build && npm run start",
+    "start": "node dist/server.js",
+    "test": "npx @modelcontextprotocol/inspector node dist/server.js"
+  },
+  "keywords": [
+    "odinfun",
+    "mcp",
+    "server",
+    "valhalla.guide"
+  ],
+  "author": "valhalla.guide",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@dfinity/agent": "^2.4.1",
+    "@dfinity/identity": "^2.4.1",
+    "@dfinity/principal": "^2.4.1",
+    "@modelcontextprotocol/sdk": "^1.11.4",
+    "@types/uuid": "^10.0.0",
+    "axios": "^1.9.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "form-data": "^4.0.2",
+    "uuid": "^11.1.0",
+    "zod": "^3.24.3"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1",
+    "@types/node": "^20.0.0",
+    "openapi-typescript": "^7.8.0",
+    "shx": "^0.3.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.0.0"
+  }
+}
