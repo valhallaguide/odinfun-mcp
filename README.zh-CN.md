@@ -97,13 +97,13 @@ OdinFun API工具现在按功能模块组织，以便于使用和更好的AI集�
 - `odinapi_identity_postComment`：在代币上发布评论
 
 #### 市场工具
-- `odinapi.market.token.getInfo`：获取代币详细信息（价格、交易量、持有者等）
-- `odinapi.market.token.list`：获取代币列表，支持过滤和排序
-- `odinapi.market.price.getBTC`：获取当前BTC美元价格
-- `odinapi.market.price.getHistory`：获取代币价格历史（K线数据）
-- `odinapi.market.trade.list`：获取代币交易记录
-- `odinapi.market.liquidity.getInfo`：获取代币流动性信息
-- `odinapi.market.liquidity.getUserPositions`：获取用户流动性头寸
+- `odinapi_market_token_getInfo`：获取代币详细信息（价格、交易量、持有者等）
+- `odinapi_market_token_list`：获取代币列表，支持过滤和排序
+- `odinapi_market_price_getBTC`：获取当前BTC美元价格
+- `odinapi_market_price_getHistory`：获取代币价格历史（K线数据）
+- `odinapi_market_trade_list`：获取代币交易记录
+- `odinapi_market_liquidity_getInfo`：获取代币流动性信息
+- `odinapi_market_liquidity_getUserPositions`：获取用户流动性头寸
 - `odinapi_comment_getBTCPrice`：获取当前BTC价格（美元计价）
 - `odinapi_comment_getTokens`：获取最近活跃的Odin.fun代币列表
 - `odinapi_comment_getTokensByHighestMarketcap`：获取市值最高的Odin.fun代币列表
@@ -111,27 +111,27 @@ OdinFun API工具现在按功能模块组织，以便于使用和更好的AI集�
 - `odinapi_token_getTradesByUser`：获取特定用户的代币交易记录
 
 #### 用户工具
-- `odinapi.user.profile.getInfo`：获取用户资料信息
-- `odinapi.user.profile.list`：列出用户（支持搜索）
-- `odinapi.user.assets.getBalances`：获取用户所有代币余额
-- `odinapi.user.assets.getTokenBalance`：获取特定代币余额
-- `odinapi.user.assets.getCreatedTokens`：获取用户创建的代币
-- `odinapi.user.activity.list`：获取用户活动历史
-- `odinapi.user.favorite.list`：获取用户收藏的代币
-- `odinapi.user.favorite.toggle`：添加或移除收藏的代币
+- `odinapi_user_profile_getInfo`：获取用户资料信息
+- `odinapi_user_profile_list`：列出用户（支持搜索）
+- `odinapi_user_assets_getBalances`：获取用户所有代币余额
+- `odinapi_user_assets_getTokenBalance`：获取特定代币余额
+- `odinapi_user_assets_getCreatedTokens`：获取用户创建的代币
+- `odinapi_user_activity_list`：获取用户活动历史
+- `odinapi_user_favorite_list`：获取用户收藏的代币
+- `odinapi_user_favorite_toggle`：添加或移除收藏的代币
 
 #### 社交工具
-- `odinapi.social.comment.list`：获取代币评论
-- `odinapi.social.comment.post`：在代币上发布评论
-- `odinapi.social.activity.feed`：获取所有代币的最近活动
-- `odinapi.social.activity.getTokenActivities`：获取特定代币的活动
+- `odinapi_social_comment_list`：获取代币评论
+- `odinapi_social_comment_post`：在代币上发布评论
+- `odinapi_social_activity_feed`：获取所有代币的最近活动
+- `odinapi_social_activity_getTokenActivities`：获取特定代币的活动
 
 #### 通用/工具类
-- `odinapi.tools.price.convert`：在聪和美元之间转换价格
-- `odinapi.tools.price.getBTC`：获取当前BTC美元价格
-- `odinapi.tools.search.global`：全局搜索（代币、用户等）
-- `odinapi.tools.enhance.tokenData`：增强代币数据（价格、流动性等）
-- `odinapi.tools.enhance.userData`：增强用户数据（余额、活动、收藏等）
+- `odinapi_tools_price_convert`：在聪和美元之间转换价格
+- `odinapi_tools_price_getBTC`：获取当前BTC美元价格
+- `odinapi_tools_search_global`：全局搜索（代币、用户等）
+- `odinapi_tools_enhance_tokenData`：增强代币数据（价格、流动性等）
+- `odinapi_tools_enhance_userData`：增强用户数据（余额、活动、收藏等）
 
 > 所有工具名称和参数现在都已标准化并在代码中记录。有关完整参数详情和使用示例，请参阅代码库。
 

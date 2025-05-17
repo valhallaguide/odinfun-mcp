@@ -12,7 +12,7 @@ export class UserTools extends OdinApiToolRegistry {
   private registerProfileTools() {
     // Get user profile
     this.registerTool(
-      "odinapi.user.profile.getInfo",
+      "odinapi_user_profile_getInfo",
       "Get user profile information",
       {
         principalId: z.string().describe("User Principal ID")
@@ -24,7 +24,7 @@ export class UserTools extends OdinApiToolRegistry {
 
     // Get user list
     this.registerTool(
-      "odinapi.user.profile.list",
+      "odinapi_user_profile_list",
       "Get list of users with optional search",
       {
         ...commonParams,
@@ -39,7 +39,7 @@ export class UserTools extends OdinApiToolRegistry {
   private registerAssetTools() {
     // Get user balances
     this.registerTool(
-      "odinapi.user.assets.getBalances",
+      "odinapi_user_assets_getBalances",
       "Get all token balances for a user",
       {
         principalId: z.string().describe("User Principal ID")
@@ -51,7 +51,7 @@ export class UserTools extends OdinApiToolRegistry {
 
     // Get specific token balance
     this.registerTool(
-      "odinapi.user.assets.getTokenBalance",
+      "odinapi_user_assets_getTokenBalance",
       "Get balance for a specific token",
       {
         principalId: z.string().describe("User Principal ID"),
@@ -67,7 +67,7 @@ export class UserTools extends OdinApiToolRegistry {
 
     // Get created tokens
     this.registerTool(
-      "odinapi.user.assets.getCreatedTokens",
+      "odinapi_user_assets_getCreatedTokens",
       "Get tokens created by the user",
       {
         principalId: z.string().describe("User Principal ID"),
@@ -82,7 +82,7 @@ export class UserTools extends OdinApiToolRegistry {
   private registerActivityTools() {
     // Get user activities
     this.registerTool(
-      "odinapi.user.activity.list",
+      "odinapi_user_activity_list",
       "Get user activity history",
       {
         principalId: z.string().describe("User Principal ID"),
@@ -104,7 +104,7 @@ export class UserTools extends OdinApiToolRegistry {
   private registerFavoriteTools() {
     // Get favorite tokens
     this.registerTool(
-      "odinapi.user.favorite.list",
+      "odinapi_user_favorite_list",
       "Get user's favorite tokens",
       {
         principalId: z.string().describe("User Principal ID"),
@@ -120,7 +120,7 @@ export class UserTools extends OdinApiToolRegistry {
 
     // Add/remove favorite
     this.registerTool(
-      "odinapi.user.favorite.toggle",
+      "odinapi_user_favorite_toggle",
       "Add or remove a token from favorites",
       {
         principalId: z.string().describe("User Principal ID"),

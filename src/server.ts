@@ -12,7 +12,7 @@ import { logger } from "./utils/logger.js";
 
 // Define server name and version in one place
 const SERVER_NAME = "odin-fun-server";
-const SERVER_VERSION = "1.0.1";
+const SERVER_VERSION = "1.0.2";
 
 // Create McpServer instance
 const server = new McpServer({

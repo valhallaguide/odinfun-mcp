@@ -22,7 +22,7 @@ export class MarketTools extends OdinApiToolRegistry {
   private registerTokenTools() {
     // Get token information
     this.registerTool(
-      "odinapi.market.token.getInfo",
+      "odinapi_market_token_getInfo",
       "Get detailed token information including price, volume, holders, etc.",
       {
         tokenId: z.string().describe("Token ID"),
@@ -43,7 +43,7 @@ export class MarketTools extends OdinApiToolRegistry {
 
     // Get token list
     this.registerTool(
-      "odinapi.market.token.list",
+      "odinapi_market_token_list",
       "Get list of tokens with optional filtering and sorting",
       {
         ...commonParams,
@@ -71,7 +71,7 @@ export class MarketTools extends OdinApiToolRegistry {
   private registerPriceTools() {
     // Get BTC price
     this.registerTool(
-      "odinapi.market.price.getBTC",
+      "odinapi_market_price_getBTC",
       "Get current BTC price in USD",
       {},
       async () => {
@@ -81,7 +81,7 @@ export class MarketTools extends OdinApiToolRegistry {
 
     // Get token price history
     this.registerTool(
-      "odinapi.market.price.getHistory",
+      "odinapi_market_price_getHistory",
       "Get token price history (candlestick data)",
       {
         tokenId: z.string().describe("Token ID"),
@@ -103,7 +103,7 @@ export class MarketTools extends OdinApiToolRegistry {
   private registerTradeTools() {
     // Get token trades
     this.registerTool(
-      "odinapi.market.trade.list",
+      "odinapi_market_trade_list",
       "Get list of trades for a token",
       {
         tokenId: z.string().describe("Token ID"),
@@ -130,7 +130,7 @@ export class MarketTools extends OdinApiToolRegistry {
 
     // Get user trades
     this.registerTool(
-      "odinapi.market.trade.getUserTrades",
+      "odinapi_market_trade_getUserTrades",
       "Get trades for a specific user",
       {
         principalId: z.string().describe("User Principal ID"),
@@ -151,7 +151,7 @@ export class MarketTools extends OdinApiToolRegistry {
   private registerLiquidityTools() {
     // Get token liquidity
     this.registerTool(
-      "odinapi.market.liquidity.getInfo",
+      "odinapi_market_liquidity_getInfo",
       "Get liquidity information for a token",
       {
         tokenId: z.string().describe("Token ID")
@@ -163,7 +163,7 @@ export class MarketTools extends OdinApiToolRegistry {
 
     // Get user liquidity positions
     this.registerTool(
-      "odinapi.market.liquidity.getUserPositions",
+      "odinapi_market_liquidity_getUserPositions",
       "Get user's liquidity positions",
       {
         principalId: z.string().describe("User Principal ID"),

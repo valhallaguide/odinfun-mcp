@@ -97,13 +97,13 @@ OdinFun API tools are now organized by functional modules for easier use and bet
 - `odinapi_identity_postComment`: Post a comment on a token
 
 #### Market Tools
-- `odinapi.market.token.getInfo`: Get detailed token information (price, volume, holders, etc.)
-- `odinapi.market.token.list`: List tokens with filtering and sorting
-- `odinapi.market.price.getBTC`: Get current BTC price in USD
-- `odinapi.market.price.getHistory`: Get token price history (candlestick data)
-- `odinapi.market.trade.list`: Get trade records for a token
-- `odinapi.market.liquidity.getInfo`: Get liquidity information for a token
-- `odinapi.market.liquidity.getUserPositions`: Get user's liquidity positions
+- `odinapi_market_token_getInfo`: Get detailed token information (price, volume, holders, etc.)
+- `odinapi_market_token_list`: List tokens with filtering and sorting
+- `odinapi_market_price_getBTC`: Get current BTC price in USD
+- `odinapi_market_price_getHistory`: Get token price history (candlestick data)
+- `odinapi_market_trade_list`: Get trade records for a token
+- `odinapi_market_liquidity_getInfo`: Get liquidity information for a token
+- `odinapi_market_liquidity_getUserPositions`: Get user's liquidity positions
 - `odinapi_comment_getBTCPrice`: Get current BTC price in USD
 - `odinapi_comment_getTokens`: Get recently active Odin.fun tokens
 - `odinapi_comment_getTokensByHighestMarketcap`: Get Odin.fun tokens with highest market cap
@@ -111,27 +111,27 @@ OdinFun API tools are now organized by functional modules for easier use and bet
 - `odinapi_token_getTradesByUser`: Get token trades by specific user
 
 #### User Tools
-- `odinapi.user.profile.getInfo`: Get user profile information
-- `odinapi.user.profile.list`: List users (with search)
-- `odinapi.user.assets.getBalances`: Get all token balances for a user
-- `odinapi.user.assets.getTokenBalance`: Get balance for a specific token
-- `odinapi.user.assets.getCreatedTokens`: Get tokens created by the user
-- `odinapi.user.activity.list`: Get user activity history
-- `odinapi.user.favorite.list`: Get user's favorite tokens
-- `odinapi.user.favorite.toggle`: Add or remove a token from favorites
+- `odinapi_user_profile_getInfo`: Get user profile information
+- `odinapi_user_profile_list`: List users (with search)
+- `odinapi_user_assets_getBalances`: Get all token balances for a user
+- `odinapi_user_assets_getTokenBalance`: Get balance for a specific token
+- `odinapi_user_assets_getCreatedTokens`: Get tokens created by the user
+- `odinapi_user_activity_list`: Get user activity history
+- `odinapi_user_favorite_list`: Get user's favorite tokens
+- `odinapi_user_favorite_toggle`: Add or remove a token from favorites
 
 #### Social Tools
-- `odinapi.social.comment.list`: Get comments for a token
-- `odinapi.social.comment.post`: Post a comment on a token
-- `odinapi.social.activity.feed`: Get recent activities across all tokens
-- `odinapi.social.activity.getTokenActivities`: Get activities for a specific token
+- `odinapi_social_comment_list`: Get comments for a token
+- `odinapi_social_comment_post`: Post a comment on a token
+- `odinapi_social_activity_feed`: Get recent activities across all tokens
+- `odinapi_social_activity_getTokenActivities`: Get activities for a specific token
 
 #### Common/Utility Tools
-- `odinapi.tools.price.convert`: Convert price between sats and USD
-- `odinapi.tools.price.getBTC`: Get current BTC price in USD
-- `odinapi.tools.search.global`: Search across all entities (tokens, users, etc.)
-- `odinapi.tools.enhance.tokenData`: Enhance token data with price, liquidity, etc.
-- `odinapi.tools.enhance.userData`: Enhance user data with balances, activities, favorites, etc.
+- `odinapi_tools_price_convert`: Convert price between sats and USD
+- `odinapi_tools_price_getBTC`: Get current BTC price in USD
+- `odinapi_tools_search_global`: Search across all entities (tokens, users, etc.)
+- `odinapi_tools_enhance_tokenData`: Enhance token data with price, liquidity, etc.
+- `odinapi_tools_enhance_userData`: Enhance user data with balances, activities, favorites, etc.
 
 > All tool names and parameters are now standardized and documented in code. See the codebase for full parameter details and usage examples.
 

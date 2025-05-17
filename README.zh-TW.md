@@ -97,13 +97,13 @@ OdinFun API工具現在按功能模組組織，以便於使用和更好的AI集�
 - `odinapi_identity_postComment`：在代幣上發布評論
 
 #### 市場工具
-- `odinapi.market.token.getInfo`：獲取代幣詳細信息（價格、交易量、持有者等）
-- `odinapi.market.token.list`：獲取代幣列表，支持過濾和排序
-- `odinapi.market.price.getBTC`：獲取當前BTC美元價格
-- `odinapi.market.price.getHistory`：獲取代幣價格歷史（K線數據）
-- `odinapi.market.trade.list`：獲取代幣交易記錄
-- `odinapi.market.liquidity.getInfo`：獲取代幣流動性信息
-- `odinapi.market.liquidity.getUserPositions`：獲取用戶流動性頭寸
+- `odinapi_market_token_getInfo`：獲取代幣詳細信息（價格、交易量、持有者等）
+- `odinapi_market_token_list`：獲取代幣列表，支持過濾和排序
+- `odinapi_market_price_getBTC`：獲取當前BTC美元價格
+- `odinapi_market_price_getHistory`：獲取代幣價格歷史（K線數據）
+- `odinapi_market_trade_list`：獲取代幣交易記錄
+- `odinapi_market_liquidity_getInfo`：獲取代幣流動性信息
+- `odinapi_market_liquidity_getUserPositions`：獲取用戶流動性頭寸
 - `odinapi_comment_getBTCPrice`：獲取當前BTC價格（美元計價）
 - `odinapi_comment_getTokens`：獲取最近活躍的Odin.fun代幣列表
 - `odinapi_comment_getTokensByHighestMarketcap`：獲取市值最高的Odin.fun代幣列表
@@ -111,27 +111,27 @@ OdinFun API工具現在按功能模組組織，以便於使用和更好的AI集�
 - `odinapi_token_getTradesByUser`：獲取特定用戶的代幣交易記錄
 
 #### 用戶工具
-- `odinapi.user.profile.getInfo`：獲取用戶資料信息
-- `odinapi.user.profile.list`：列出用戶（支持搜索）
-- `odinapi.user.assets.getBalances`：獲取用戶所有代幣餘額
-- `odinapi.user.assets.getTokenBalance`：獲取特定代幣餘額
-- `odinapi.user.assets.getCreatedTokens`：獲取用戶創建的代幣
-- `odinapi.user.activity.list`：獲取用戶活動歷史
-- `odinapi.user.favorite.list`：獲取用戶收藏的代幣
-- `odinapi.user.favorite.toggle`：添加或移除收藏的代幣
+- `odinapi_user_profile_getInfo`：獲取用戶資料信息
+- `odinapi_user_profile_list`：列出用戶（支持搜索）
+- `odinapi_user_assets_getBalances`：獲取用戶所有代幣餘額
+- `odinapi_user_assets_getTokenBalance`：獲取特定代幣餘額
+- `odinapi_user_assets_getCreatedTokens`：獲取用戶創建的代幣
+- `odinapi_user_activity_list`：獲取用戶活動歷史
+- `odinapi_user_favorite_list`：獲取用戶收藏的代幣
+- `odinapi_user_favorite_toggle`：添加或移除收藏的代幣
 
 #### 社交工具
-- `odinapi.social.comment.list`：獲取代幣評論
-- `odinapi.social.comment.post`：在代幣上發布評論
-- `odinapi.social.activity.feed`：獲取所有代幣的最近活動
-- `odinapi.social.activity.getTokenActivities`：獲取特定代幣的活動
+- `odinapi_social_comment_list`：獲取代幣評論
+- `odinapi_social_comment_post`：在代幣上發布評論
+- `odinapi_social_activity_feed`：獲取所有代幣的最近活動
+- `odinapi_social_activity_getTokenActivities`：獲取特定代幣的活動
 
 #### 通用/工具類
-- `odinapi.tools.price.convert`：在聰和美元之間轉換價格
-- `odinapi.tools.price.getBTC`：獲取當前BTC美元價格
-- `odinapi.tools.search.global`：全局搜索（代幣、用戶等）
-- `odinapi.tools.enhance.tokenData`：增強代幣數據（價格、流動性等）
-- `odinapi.tools.enhance.userData`：增強用戶數據（餘額、活動、收藏等）
+- `odinapi_tools_price_convert`：在聰和美元之間轉換價格
+- `odinapi_tools_price_getBTC`：獲取當前BTC美元價格
+- `odinapi_tools_search_global`：全局搜索（代幣、用戶等）
+- `odinapi_tools_enhance_tokenData`：增強代幣數據（價格、流動性等）
+- `odinapi_tools_enhance_userData`：增強用戶數據（餘額、活動、收藏等）
 
 > 所有工具名稱和參數現在都已標準化並在代碼中記錄。有關完整參數詳情和使用示例，請參閱代碼庫。
 

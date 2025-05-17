@@ -10,7 +10,7 @@ export class SocialTools extends OdinApiToolRegistry {
   private registerCommentTools() {
     // Get token comments
     this.registerTool(
-      "odinapi.social.comment.list",
+      "odinapi_social_comment_list",
       "Get comments for a token",
       {
         tokenId: z.string().describe("Token ID"),
@@ -23,7 +23,7 @@ export class SocialTools extends OdinApiToolRegistry {
 
     // Post a comment
     this.registerTool(
-      "odinapi.social.comment.post",
+      "odinapi_social_comment_post",
       "Post a comment on a token",
       {
         tokenId: z.string().describe("Token ID"),
@@ -44,7 +44,7 @@ export class SocialTools extends OdinApiToolRegistry {
   private registerActivityTools() {
     // Get recent activities
     this.registerTool(
-      "odinapi.social.activity.feed",
+      "odinapi_social_activity_feed",
       "Get recent activities across all tokens",
       {
         ...commonParams,
@@ -63,7 +63,7 @@ export class SocialTools extends OdinApiToolRegistry {
 
     // Get activities for a token (using the main activities endpoint with filtering)
     this.registerTool(
-      "odinapi.social.activity.getTokenActivities",
+      "odinapi_social_activity_getTokenActivities",
       "Get activities for a specific token",
       {
         tokenId: z.string().describe("Token ID"),

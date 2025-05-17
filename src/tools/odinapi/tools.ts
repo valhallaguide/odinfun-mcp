@@ -11,7 +11,7 @@ export class CommonTools extends OdinApiToolRegistry {
   private registerPriceTools() {
     // Convert price between units
     this.registerTool(
-      "odinapi.tools.price.convert",
+      "odinapi_tools_price_convert",
       "Convert price between different units (sats/USD)",
       {
         amount: z.number().describe("Amount to convert"),
@@ -40,7 +40,7 @@ export class CommonTools extends OdinApiToolRegistry {
 
     // Get BTC price
     this.registerTool(
-      "odinapi.tools.price.getBTC",
+      "odinapi_tools_price_getBTC",
       "Get current BTC price in USD",
       {},
       async () => {
@@ -52,7 +52,7 @@ export class CommonTools extends OdinApiToolRegistry {
   private registerSearchTools() {
     // Search across all entities
     this.registerTool(
-      "odinapi.tools.search.global",
+      "odinapi_tools_search_global",
       "Search across all entities (tokens, users, etc.)",
       {
         query: z.string().describe("Search query"),
@@ -67,7 +67,7 @@ export class CommonTools extends OdinApiToolRegistry {
 
     // Search tokens
     this.registerTool(
-      "odinapi.tools.search.tokens",
+      "odinapi_tools_search_tokens",
       "Search for tokens by name or ticker",
       {
         query: z.string().describe("Search query"),
@@ -81,7 +81,7 @@ export class CommonTools extends OdinApiToolRegistry {
 
     // Search users
     this.registerTool(
-      "odinapi.tools.search.users",
+      "odinapi_tools_search_users",
       "Search for users by username",
       {
         query: z.string().describe("Search query"),
@@ -97,7 +97,7 @@ export class CommonTools extends OdinApiToolRegistry {
   private registerDataEnhancementTools() {
     // Enhance token data with additional information
     this.registerTool(
-      "odinapi.tools.enhance.tokenData",
+      "odinapi_tools_enhance_tokenData",
       "Enhance token data with additional information (price in USD, etc.)",
       {
         tokenId: z.string().describe("Token ID"),
@@ -127,7 +127,7 @@ export class CommonTools extends OdinApiToolRegistry {
 
     // Enhance user data with additional information
     this.registerTool(
-      "odinapi.tools.enhance.userData",
+      "odinapi_tools_enhance_userData",
       "Enhance user data with additional information (balances, activities, etc.)",
       {
         principalId: z.string().describe("User Principal ID"),
