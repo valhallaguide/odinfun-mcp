@@ -221,7 +221,12 @@ export function registerOdinFunTools(server: any) {
           if (!token || typeof token !== 'object') return false;
           const n = (token.name || '').toLowerCase();
           const t = (token.ticker || '').toLowerCase();
-          return n.includes(input) || t.includes(input);
+          const id = (token.id || '').toLowerCase();
+          const rune = (token.rune || '').toLowerCase();
+          return n.includes(input) || 
+                 t.includes(input) || 
+                 id === input ||     // ID通常需要精确匹配
+                 rune.includes(input);
         });
         
         //console.error('Filtered tokens:', filtered.length);
