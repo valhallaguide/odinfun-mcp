@@ -434,7 +434,8 @@ export function registerOdinFunTools(server: any) {
     },
     async (params: any) => {
       const result = await odinFunService.user.getUserByPrincipal(params.principalId);
-      return { content: [{ type: "text", text: JSON.stringify(result) }] };
+      const enhancedResult = await odinFunService.enhanceResponse(result);
+      return { content: [{ type: "text", text: JSON.stringify(enhancedResult) }] };
     }
   );
 
@@ -450,7 +451,8 @@ export function registerOdinFunTools(server: any) {
     },
     async (params: any) => {
       const result = await odinFunService.user.getUserBalances(params.principalId);
-      return { content: [{ type: "text", text: JSON.stringify(result) }] };
+      const enhancedResult = await odinFunService.enhanceResponse(result);
+      return { content: [{ type: "text", text: JSON.stringify(enhancedResult) }] };
     }
   );
 
@@ -468,7 +470,8 @@ export function registerOdinFunTools(server: any) {
     },
     async (params: any) => {
       const result = await odinFunService.user.getUserBalances(params.principalId);
-      const tokenBalance = Array.isArray(result) ? result.find((b: any) => b.token === params.tokenId) : undefined;
+      const enhancedResult = await odinFunService.enhanceResponse(result);
+      const tokenBalance = Array.isArray(enhancedResult) ? enhancedResult.find((b: any) => b.token === params.tokenId) : undefined;
       return { content: [{ type: "text", text: JSON.stringify(tokenBalance) }] };
     }
   );
@@ -485,7 +488,8 @@ export function registerOdinFunTools(server: any) {
     },
     async (params: any) => {
       const result = await odinFunService.user.getUserCreatedTokens(params.principalId);
-      return { content: [{ type: "text", text: JSON.stringify(result) }] };
+      const enhancedResult = await odinFunService.enhanceResponse(result);
+      return { content: [{ type: "text", text: JSON.stringify(enhancedResult) }] };
     }
   );
 
@@ -501,7 +505,8 @@ export function registerOdinFunTools(server: any) {
     },
     async (params: any) => {
       const result = await odinFunService.user.getUserTokens(params.principalId);
-      const favoriteTokens = Array.isArray(result) ? result.filter((t: any) => t.favorite) : [];
+      const enhancedResult = await odinFunService.enhanceResponse(result);
+      const favoriteTokens = Array.isArray(enhancedResult) ? enhancedResult.filter((t: any) => t.favorite) : [];
       return { content: [{ type: "text", text: JSON.stringify(favoriteTokens) }] };
     }
   );
@@ -519,7 +524,8 @@ export function registerOdinFunTools(server: any) {
     },
     async (params: any) => {
       const result = await odinFunService.user.getUserTokens(params.user_principal);
-      const liquidityTokens = Array.isArray(result) ? result.filter((t: any) => t.liquidity) : [];
+      const enhancedResult = await odinFunService.enhanceResponse(result);
+      const liquidityTokens = Array.isArray(enhancedResult) ? enhancedResult.filter((t: any) => t.liquidity) : [];
       return { content: [{ type: "text", text: JSON.stringify(liquidityTokens) }] };
     }
   );
@@ -536,7 +542,8 @@ export function registerOdinFunTools(server: any) {
     },
     async (params: any) => {
       const result = await odinFunService.user.getUserActivity(params.principalId);
-      return { content: [{ type: "text", text: JSON.stringify(result) }] };
+      const enhancedResult = await odinFunService.enhanceResponse(result);
+      return { content: [{ type: "text", text: JSON.stringify(enhancedResult) }] };
     }
   );  
 
